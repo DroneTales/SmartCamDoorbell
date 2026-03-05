@@ -28,16 +28,11 @@
 
  ## Installing MQTT broker
 
-```
-sudo apt-get update 
-sudo apt-get upgrade 
-
-sudo apt-get install mosquitto mosquitto-clients
-
-sudo systemctl enable mosquitto
-
-sudo nano /etc/mosquitto/mosquitto.conf
-```
+`sudo apt-get update`  
+`sudo apt-get upgrade`  
+`sudo apt-get install mosquitto mosquitto-clients`  
+`sudo systemctl enable mosquitto`  
+`sudo nano /etc/mosquitto/mosquitto.conf`
 
 Delete all lines and paste the following configuration
 
@@ -98,7 +93,7 @@ Scroll down to the "cameras" section and look for "mqtt" section there. If any t
 
 Now add the following line right before "videoConfig" section
 
-'"doorbell": true,`
+`"doorbell": true,`
 
 That's ALL.
 
