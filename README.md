@@ -38,7 +38,7 @@
 `sudo systemctl enable mosquitto`  
 `sudo nano /etc/mosquitto/mosquitto.conf`
 
-Последняя команда откроет файл конфигурации MQTT броке. Удалите все строки и вставьте следующие:  
+Последняя команда откроет файл конфигурации MQTT брокера. Удалите все строки и вставьте следующие:  
 
 ```
 per_listener_settings true
