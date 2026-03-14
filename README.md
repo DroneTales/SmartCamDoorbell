@@ -1,32 +1,36 @@
-# Smart Camera Doorbell
- ESP32C3 smart camera doorbell for Apple Home Kit
+# Умный видеозвонок для Apple Home
 
- This repository contains firmware for the HomeKit device described in [this video](https://youtu.be/UexestUQARw).
- 
- **Required Hardware**
- - 433Mhz doorbell
- - ESP32C3FN4 Super Mini
- 
- **Required Arduino Libraries**
- - esp32 by Espressif Systems (board) 3.3.7
- - HomeSpan 2.1.7
- 
- **Arduino IDE Settings**
- - Board: ESP32C3 Dev BModule
- - ESP CDC On Boot: Enabled
- - CPU Frequency: 80MHz (WiFi)
- - Core Debug Level: None
- - Erase All Flash Before Sketch Upload: Disabled
- - Flash frequency: 80Mhz
- - Flash Mode: QIO
- - Flash Size: 4MB (32Mb)
- - JTAG Adapter: Disabled
- - Partition Scheme: Huge APP (3MB No OTA/1MB SPIFFS)
- - Upload Speed: 921600
- - Zigbee Mode: Disabled
- - Programmer: Esptool
+Этот репозиторий содерджит прошивку для устройства Apple HomeKit, о котором рассказывается в [этом видео](https://youtu.be/UexestUQARw).
 
- ## Installing MQTT broker
+**Используемые компоненты**
+
+- Беспроводной дверной звонок 433Mhz
+- ESP32C3FN4 Super Mini
+
+**Используемые библиотеки Arduino**
+
+- esp32 by Espressif Systems (board) 3.3.7
+- HomeSpan 2.1.7
+ 
+**Настройки Arduino IDE**
+
+- Board: ESP32C3 Dev BModule
+- ESP CDC On Boot: Enabled
+- CPU Frequency: 80MHz (WiFi)
+- Core Debug Level: None
+- Erase All Flash Before Sketch Upload: Disabled
+- Flash frequency: 80Mhz
+- Flash Mode: QIO
+- Flash Size: 4MB (32Mb)
+- JTAG Adapter: Disabled
+- Partition Scheme: Huge APP (3MB No OTA/1MB SPIFFS)
+- Upload Speed: 921600
+- Zigbee Mode: Disabled
+- Programmer: Esptool
+
+## Установка MQTT брокера
+
+Подключитесь к вашей Raspberry Pi (или другому устройству, где у вас установлен HomeBridge) по SSH и введите следующуе команды:  
 
 `sudo apt-get update`  
 `sudo apt-get upgrade`  
@@ -34,7 +38,7 @@
 `sudo systemctl enable mosquitto`  
 `sudo nano /etc/mosquitto/mosquitto.conf`
 
-Delete all lines and paste the following configuration
+Последняя команда откроет файл конфигурации MQTT броке. Удалите все строки и вставьте следующие:  
 
 ```
 per_listener_settings true
@@ -53,21 +57,21 @@ allow_anonymous false
 password_file /etc/mosquitto/passwd
 ```
 
-Create new MQTT user
+Создайте нового пользователя для MQTT брокера. Для этого введите следующую команду:  
 
 `sudo mosquitto_passwd -c /etc/mosquitto/passwd dronetales`
 
-Enter new password `dronetales`
+На запрос пароля введите `dronetales`.
 
-Start MQTT server
+Запустите MQTT сервер (брокер), введя команду:  
 
 `sudo systemctl restart mosquitto`
 
-## Configure HomeBridge
+## Настройка HomeBridge
 
-Open HomeBridge Web UI. Select "Edit JSON". 
+Подключитесь к HomeBridge по Web интерфейсу. Выберите "Редактировать JSON". 
 
-In the CameraUI section replace MQTT settings with the following lines
+В разделе CameraUI замените настройки MQTT следующими:
 
 ```
 "mqtt": {
@@ -80,9 +84,9 @@ In the CameraUI section replace MQTT settings with the following lines
 },
 ```
 
-If you used different user name and password when configuring MQTT provide them in the "username" and "password" parameters.
+Если в процессе создания MQTT пользователя вы использовали иные имя и пароль, то укажите из в параметрах "username" и "password".
 
-Scroll down to the "cameras" section and look for "mqtt" section there. If any then repace it with the following lines. If there is no such section add new right after "videoanalysis".
+Пролистайте вниз до раздела "cameras" и найдите там раздел "mqtt". Измените его как показано ниже. Если в вашем файле конфигурации такого раздела нет, то добавьте его сразу после раздела "videoanalysis".  
 
 ```
 "mqtt": {
@@ -91,19 +95,19 @@ Scroll down to the "cameras" section and look for "mqtt" section there. If any t
 },
 ```
 
-Now add the following line right before "videoConfig" section
+Теперь добавьте следующую строку сразу перед секцией "videoConfig":
 
 `"doorbell": true,`
 
-That's ALL.
+Готово.
 
-## Support the project
+## Поддержать автора
  
- If you like the project you can support me by the following link:  
+Если вам интересно то, что я делаю, вы можете поддержать меня используя ссылки ниже:  
 
- **BuyMeACoffee**: https://buymeacoffee.com/dronetales  
- **Boosty**: https://boosty.to/drone_tales/donate  
+**BuyMeACoffee**: https://buymeacoffee.com/dronetales  
+**Boosty**: https://boosty.to/drone_tales/donate  
  
- **BTC**: bitcoin:1A1WM3CJzdyEB1P9SzTbkzx38duJD6kau  
- **BCH**: bitcoincash:qre7s8cnkwx24xpzvvfmqzx6ex0ysmq5vuah42q6yz  
- **ETH**: 0xf780b3B7DbE2FC74b5F156cBBE51F67eDeAd8F9a  
+**BTC**: bitcoin:1A1WM3CJzdyEB1P9SzTbkzx38duJD6kau  
+**BCH**: bitcoincash:qre7s8cnkwx24xpzvvfmqzx6ex0ysmq5vuah42q6yz  
+**ETH**: 0xf780b3B7DbE2FC74b5F156cBBE51F67eDeAd8F9a  
